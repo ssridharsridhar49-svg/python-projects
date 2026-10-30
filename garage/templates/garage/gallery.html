@@ -1,0 +1,30 @@
+{% extends 'garage/base.html' %}
+{% block title %}Build Gallery | AutoCraft{% endblock %}
+{% block content %}
+<section class="catalog-banner gallery-banner">
+    <p class="eyebrow">AUTOCRAFT / THE GALLERY</p>
+    <h1>Built with <span>intention.</span></h1>
+    <p>Recent community builds from the AutoCraft modification studio.</p>
+</section>
+<section class="section catalog-section">
+    <div class="section-heading"><p class="eyebrow">RECENT SAVED BUILDS</p><h2>The <span>build board.</span></h2></div>
+    <div class="vehicle-grid gallery-grid">
+        {% for design in designs %}
+        <article class="vehicle-card design-card">
+            <div class="vehicle-image">
+                {% if design.vehicle.display_image %}<img src="{{ design.vehicle.display_image }}" alt="{{ design.vehicle.company }} {{ design.vehicle.name }}" loading="lazy">{% else %}<span class="image-placeholder">AUTOCRAFT / BUILD</span>{% endif %}
+                <span class="paint-swatch" style="--paint: {{ design.color }}" title="{{ design.get_color_display }}"></span>
+            </div>
+            <div class="design-details">
+                <p class="vehicle-company">{{ design.vehicle.company }} / {{ design.vehicle.get_category_display }}</p>
+                <h3>{{ design.name|default:design.vehicle.name }}</h3>
+                <p class="design-specs">{{ design.get_color_display }} · {{ design.get_wheels_display }} · {{ design.get_exhaust_display }}</p>
+                <p class="design-date">Saved {{ design.created_at|date:"M j, Y" }}</p>
+            </div>
+        </article>
+        {% empty %}
+        <div class="empty-state"><h3>The first build is yours.</h3><p>Open a car or bike in the studio, choose your upgrades, and save it to see it here.</p><div class="button-row"><a class="button button-primary" href="{% url 'cars' %}">Explore cars</a><a class="button button-outline" href="{% url 'bikes' %}">Explore bikes</a></div></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

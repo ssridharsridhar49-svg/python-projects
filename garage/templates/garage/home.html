@@ -1,0 +1,39 @@
+{% extends 'garage/base.html' %}
+{% block title %}AutoCraft | Build your dream machine{% endblock %}
+{% block content %}
+<section class="hero hero-home">
+    <div class="hero-copy">
+        <p class="eyebrow">YOUR RIDE. YOUR RULES.</p>
+        <h1>Build your<br>dream <span>machine.</span></h1>
+        <p class="hero-description">Explore real car and bike platforms, choose your upgrades, and save your build to your AutoCraft account.</p>
+        <div class="button-row">
+            <a class="button button-primary" href="{% url 'cars' %}">Explore cars <span aria-hidden="true">↗</span></a>
+            <a class="button button-outline" href="{% url 'bikes' %}">Explore bikes <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+    <div class="hero-stamp"><span>AC</span><small>DESIGN<br>YOUR DRIVE</small></div>
+</section>
+<section class="section section-intro">
+    <div class="section-heading">
+        <p class="eyebrow">THE BUILD STARTS HERE</p>
+        <h2>Choose your <span>machine.</span></h2>
+        <p>Separate studios, purpose-built options, one place to keep every design.</p>
+    </div>
+    <div class="choice-grid">
+        <a class="choice-card choice-car" href="{% url 'cars' %}">
+            <span class="choice-index">01 / CAR STUDIO</span>
+            <h3>Four wheels.<br>Full expression.</h3>
+            <span class="choice-link">Browse cars <b>↗</b></span>
+        </a>
+        <a class="choice-card choice-bike" href="{% url 'bikes' %}">
+            <span class="choice-index">02 / BIKE STUDIO</span>
+            <h3>Two wheels.<br>All attitude.</h3>
+            <span class="choice-link">Browse bikes <b>↗</b></span>
+        </a>
+    </div>
+</section>
+<section class="strip-cta">
+    <div><p class="eyebrow">MAKE IT YOURS</p><h2>Save a build. Come back to it anytime.</h2></div>
+    <a class="button button-primary" href="{% url 'signup' %}">Create your account <span aria-hidden="true">↗</span></a>
+</section>
+{% endblock %}

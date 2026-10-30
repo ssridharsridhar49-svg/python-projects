@@ -1,0 +1,25 @@
+{% extends 'garage/base.html' %}
+{% block title %}Create account | AutoCraft{% endblock %}
+{% block content %}
+<section class="auth-section">
+    <div class="auth-aside"><p class="eyebrow">YOUR GARAGE, YOUR BUILDS</p><h1>Keep every<br>idea <span>in motion.</span></h1><p>Create an account to save, revisit, and manage your vehicle designs.</p></div>
+    <div class="auth-card">
+        <p class="eyebrow">AUTOCRAFT ACCOUNT</p><h2>Create your <span>account.</span></h2>
+        <p class="auth-intro">Your profile and saved builds are stored securely in the Django database.</p>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+            {% for field in form %}
+                <div class="field-wrap">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<small class="help-text">{{ field.help_text|safe }}</small>{% endif %}
+                    {% for error in field.errors %}<small class="field-error">{{ error }}</small>{% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="button button-primary button-save">Create account <span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="auth-switch">Already registered? <a href="{% url 'login' %}">Log in</a></p>
+    </div>
+</section>
+{% endblock %}

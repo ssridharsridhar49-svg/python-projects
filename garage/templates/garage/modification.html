@@ -1,0 +1,67 @@
+{% extends 'garage/base.html' %}{% load static %}
+{% block title %}Customize {{ vehicle.company }} {{ vehicle.name }} | AutoCraft{% endblock %}
+{% block content %}
+<section class="section builder-section">
+    <div class="builder-topline">
+        {% if is_bike %}<a href="{% url 'bikes' %}" class="back-link">← Bike studio</a>{% else %}<a href="{% url 'cars' %}" class="back-link">← Car studio</a>{% endif %}
+        <span class="eyebrow">{{ category_label|upper }} CONFIGURATOR</span>
+    </div>
+    <div class="builder-heading">
+        <div><p class="eyebrow">{{ vehicle.company|upper }}</p><h1>{{ vehicle.name }} <span>build sheet.</span></h1></div>
+        <p>Set up your ride. Your choices update the preview and are saved to your AutoCraft account.</p>
+    </div>
+
+    <div class="customizer" data-category="{{ vehicle.category }}">
+        <section class="preview-card" aria-label="Live vehicle preview">
+            <div class="preview-toolbar"><span class="live-indicator">LIVE PREVIEW</span><span>{{ vehicle.get_category_display|upper }} / {{ vehicle.company|upper }}</span></div>
+            <div class="preview-frame" id="previewFrame">
+                {% if vehicle.display_image %}<img id="vehicleImage" src="{{ vehicle.display_image }}" alt="{{ vehicle.company }} {{ vehicle.name }} customization preview">{% else %}<div class="preview-placeholder">{{ vehicle.company }}<br>{{ vehicle.name }}</div>{% endif %}
+                <span class="preview-paint" id="previewPaint"><i id="previewPaintSwatch"></i><b id="previewPaintLabel"></b></span>
+                <span class="preview-graphic" id="previewGraphic" aria-hidden="true"></span>
+                <span class="preview-spoiler" id="previewSpoiler" aria-hidden="true"></span>
+            </div>
+            <div class="preview-caption"><div><p class="vehicle-company">{{ vehicle.company }}</p><h2>{{ vehicle.name }}</h2></div><span class="build-tag">YOUR BUILD</span></div>
+            <div class="preview-selections" id="previewSelections" aria-live="polite"></div>
+        </section>
+
+        <section class="options-card">
+            <div class="options-heading"><p class="eyebrow">STEP 01 — PERSONALIZE</p><h2>Make it <span>yours.</span></h2></div>
+            <form method="post" class="design-form" id="designForm">
+                {% csrf_token %}
+                {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+                <div class="field-wrap">
+                    <label for="{{ form.name.id_for_label }}">Build name <span>optional</span></label>
+                    {{ form.name }}{{ form.name.errors }}
+                </div>
+                <div class="field-wrap">
+                    <label for="{{ form.color.id_for_label }}">Paint colour</label>
+                    {{ form.color }}{{ form.color.errors }}
+                </div>
+                <div class="field-wrap">
+                    <label for="{{ form.wheels.id_for_label }}">{% if is_bike %}Wheel setup{% else %}Wheels{% endif %}</label>
+                    {{ form.wheels }}{{ form.wheels.errors }}
+                </div>
+                <div class="field-wrap">
+                    <label for="{{ form.spoiler.id_for_label }}">{% if is_bike %}Tail / cowl{% else %}Spoiler{% endif %}</label>
+                    {{ form.spoiler }}{{ form.spoiler.errors }}
+                </div>
+                <div class="field-wrap">
+                    <label for="{{ form.stickers.id_for_label }}">Stickers and graphics</label>
+                    {{ form.stickers }}{{ form.stickers.errors }}
+                </div>
+                <div class="field-wrap">
+                    <label for="{{ form.exhaust.id_for_label }}">Exhaust</label>
+                    {{ form.exhaust }}{{ form.exhaust.errors }}
+                </div>
+                <fieldset class="field-wrap accessory-field">
+                    <legend>Accessories</legend>
+                    {{ form.accessories }}{{ form.accessories.errors }}
+                </fieldset>
+                <button type="submit" class="button button-primary button-save">Save this design <span aria-hidden="true">↗</span></button>
+                {% if not request.user.is_authenticated %}<p class="form-note">You can build now. Sign in when you save and this design will be added to your account.</p>{% else %}<p class="form-note">Saved builds are linked to your account and manageable in Django Admin.</p>{% endif %}
+            </form>
+        </section>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{% static 'garage/js/script.js' %}" defer></script>{% endblock %}

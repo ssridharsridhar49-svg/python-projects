@@ -1,0 +1,31 @@
+{% extends 'garage/base.html' %}
+{% block title %}Bike Modification | AutoCraft{% endblock %}
+{% block content %}
+<section class="catalog-banner catalog-bike">
+    <p class="eyebrow">AUTOCRAFT / BIKE STUDIO</p>
+    <h1>Two wheels.<br><span>One signature.</span></h1>
+    <p>Start with your kind of ride, then dial in the colour, stance, sound, and details.</p>
+</section>
+<section class="section catalog-section">
+    <div class="section-heading section-heading-inline">
+        <div><p class="eyebrow">SELECT A PLATFORM</p><h2>Bikes <span>to customize</span></h2></div>
+        <span class="result-count">{{ vehicles|length }} PLATFORM{{ vehicles|length|pluralize|upper }}</span>
+    </div>
+    <div class="vehicle-grid">
+        {% for vehicle in vehicles %}
+        <article class="vehicle-card">
+            <a class="vehicle-image" href="{% url 'bike_modification' vehicle.id %}" aria-label="Customize {{ vehicle.company }} {{ vehicle.name }}">
+                {% if vehicle.display_image %}<img src="{{ vehicle.display_image }}" alt="{{ vehicle.company }} {{ vehicle.name }}" loading="lazy">{% else %}<span class="image-placeholder">AUTOCRAFT / {{ vehicle.get_category_display|upper }}</span>{% endif %}
+                <span class="image-arrow" aria-hidden="true">↗</span>
+            </a>
+            <div class="vehicle-details">
+                <div><p class="vehicle-company">{{ vehicle.company }}</p><h3>{{ vehicle.name }}</h3></div>
+                <a class="button button-small button-primary" href="{% url 'bike_modification' vehicle.id %}">Customize <span aria-hidden="true">→</span></a>
+            </div>
+        </article>
+        {% empty %}
+        <div class="empty-state"><h3>No bikes in the studio yet.</h3><p>Add a bike in Django Admin to make it available here.</p></div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

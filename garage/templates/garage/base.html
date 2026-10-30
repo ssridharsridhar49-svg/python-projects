@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0d10">
+    <title>{% block title %}AutoCraft | Modification Studio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'garage/css/style.css' %}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{% url 'home' %}" aria-label="AutoCraft home">AUTO<span>CRAFT</span></a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'cars' %}">Cars</a>
+            <a href="{% url 'bikes' %}">Bikes</a>
+            <a href="{% url 'gallery' %}">Gallery</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </nav>
+        <div class="account-nav">
+            {% if request.user.is_authenticated %}
+                <span class="account-name">{{ request.user.username }}</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="text-button" type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a class="login-link" href="{% url 'login' %}">Log in</a>
+                <a class="signup-link" href="{% url 'signup' %}">Join</a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if messages %}
+        <div class="message-stack" aria-live="polite">
+            {% for message in messages %}
+                <p class="message message-{{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+        <a class="brand brand-small" href="{% url 'home' %}">AUTO<span>CRAFT</span></a>
+        <p>Built for the next version of your ride. © 2026 AutoCraft.</p>
+        <a href="{% url 'contact' %}">Get in touch</a>
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

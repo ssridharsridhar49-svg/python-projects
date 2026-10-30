@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+
+# Local databases and generated uploads
+db.sqlite3
+db.sqlite3-*
+media/**
+
+# Generated and packaged files
+staticfiles/
+autocraft_corrected_project.zip
+*.log
+
+# PythonAnywhere private WSGI files
+pythonanywhere_wsgi.py

@@ -1,0 +1,30 @@
+databases:
+  - name: autocraft-db-sridhar459
+    databaseName: autocraft
+    user: autocraft_user
+    plan: free
+
+services:
+  - type: web
+    name: autocraft-sridhar459
+    runtime: python
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: gunicorn autocraft.wsgi:application --bind 0.0.0.0:$PORT
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: autocraft-sridhar459.onrender.com
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: https://autocraft-sridhar459.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: autocraft-db-sridhar459
+          property: connectionString
