@@ -1,3 +1,6 @@
+# python-projects
+Projects I Built During My Python Learning Journey
+
 # AutoCraft
 
 AutoCraft is a Django car and bike customization site. Vehicle catalogs are separate, and each saved build is connected to the signed-in user and vehicle in SQLite.
